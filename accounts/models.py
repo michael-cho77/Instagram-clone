@@ -8,7 +8,7 @@ from imagekit.processors import ResizeToFill
 def user_path(instance, filename):
     from random import choice
     import string
-    arr = [choice(string.ascii_letter) for _ in range(8)]
+    arr = [choice(string.ascii_letters) for _ in range(8)]
     pid = ''.join(arr)
     extension = filename.split('.')[-1] # 확장자명 추출 
     return 'account/{}/{}.{}'.format(instance.user.username, pid, extension)
@@ -16,7 +16,7 @@ def user_path(instance, filename):
     
 
 # Create your models here.
-class Porfile(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     
     nickname = models.CharField('별명', max_length=20, unique=True)
