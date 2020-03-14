@@ -11,11 +11,11 @@ def signup(request):
         if form.is_vaild():
             user = form.save()
             return redirect('accounts:login')
-        else:
-            form = SignupForm()
-        return render(request, 'accounts/signup.html',{
-            'form': form,
-        }) 
+    else:
+        form = SignupForm()
+    return render(request, 'accounts/signup.html',{
+        'form': form,
+    }) 
 
 
 def login_check(request):
