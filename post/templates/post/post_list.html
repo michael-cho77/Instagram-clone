@@ -1,6 +1,5 @@
 {% extends "post/layout.html" %}
 {% load static %}
-
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -17,12 +16,8 @@
 
 
 
-
-
-<!-- main -->
 {% block content %}
 
-<!-- main -->
 <section id="main_container">
         <div class="inner">
             <div class="contents_box">
@@ -44,13 +39,35 @@
                                 <div class="country s_text">Seoul, South Korea</div>
                             </div>
                             <div>
+                                <form action="{% url 'post:post_delete' post.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="삭제">
+                                    
+                                </form>
                                 
                             </div>
                         </div>
 
                         <div class="sprite_more_icon" data-name="more">
                             <ul class="toggle_box">
-                                
+                                <li>
+                                {% if user.profile in post.author.profile.get_follower %}        
+                                <input type="submit" class="follow" value="팔로잉" data-name="follow" name="{{ post.author.profile.id }}">
+                                {% else %}
+                                <input type="submit" class="follow" value="팔로우" data-name="follow" name="{{ post.author.profile.id }}">                                    
+                                {% endif %}
+                                </li>
+                                {% if post.author == user %}               
+                                <li>
+                                    <a class="post-edit" href="{% url 'post:post_edit' post.pk %}">수정</a>
+                                </li>
+                                <li>
+                                    <form class="post-delete-form" action="{% url 'post:post_delete' post.pk %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="submit" class="post-delete" value="삭제">
+                                    </form>
+                                </li>
+                                {% endif %}
                             </ul>
                         </div>
                         
@@ -85,22 +102,45 @@
 
                     <div class="likes m_text">
                         
-                       
+                        <span id="like-count-{{ post.id }}">좋아요1개</span>
+                        <span id="bookmark-count-{{ post.id }}">북마크2개</span>
                         
                     </div>
                     
-                   
                     
+                    <div class="comment_container">
+                        <div class="comment" id="comment-list-ajax-post{{post.id}}">
+                            {% for comment in post.comment_set.all %}
+                            <div class="comment-detail" id="comment">
+                                <div class="nick_name m_text">{{ comment.author.profile.nickname}}</div>
+                                <div>{{comment.content}}</div>
+                                {% if user == comment.author %}
+    <input type="button" class="del-comment" data-name="comment_delete" value="삭제" name="">
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
 
                     <div class="timer">{{ post.created_at|timesince }}</div>
 
                     <div class="comment_field" id="add-comment-post{{post.id}}">
+                        {% if user.is_authenticated %}
+                        {{ comment_form }}
                         
+                        <div class="upload_btn m_text" name="{{post.id}}" data-name="comment">게시</div>
+                        {% else %}
+                        {{ comment_form }}
+                        
+                        <div class="upload_btn m_text" name="{{post.id}}" data-name="comment" onclick="alert('댓글을 작성하려면 로그인이 필요합니다')">게시</div>
+                        {% endif%}
                     </div>
                     
                 </article>
                 {% endfor %}
-               
+             
+           
             </div>
             
             
@@ -135,7 +175,19 @@
                     </header>
                     
                     <div class="scroll_inner">
-                       
+                        {% if following_post_list %}
+                        {% for post in following_post_list %}
+                        <div class="thumb_user">
+                            <div class="profile_thumb">
+                                <img src="{{ post.photo.url }}" alt="프로필사진">
+                            </div>
+                            <div class="detail">
+                                <div class="id">{{ post.content }}</div>
+                                <div class="time">{{ post.updated_at|timesince }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </article>
 
