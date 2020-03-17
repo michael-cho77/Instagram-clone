@@ -89,7 +89,7 @@
                                 {% endif %}
                             </div>
                             <a href="#"><div class="sprite_bubble_icon"></div></a>
-                            <!--<div class="sprite_share_icon" data-name="share"></div> -->
+                            <!-- <div class="sprite_share_icon" data-name="share"></div> -->
                         </div>
                         <div class="right_icon">
                             {% if user in post.bookmark_user_set.all %}
@@ -102,8 +102,8 @@
 
                     <div class="likes m_text">
                         
-                        <span id="like-count-{{ post.id }}">좋아요1개</span>
-                        <span id="bookmark-count-{{ post.id }}">북마크2개</span>
+                        <span id="like-count-{{ post.id }}">좋아요{{ post.like_count }}개</span>
+                        <span id="bookmark-count-{{ post.id }}">북마크{{ post.bookmark_count}}개</span>
                         
                     </div>
                     
@@ -214,7 +214,7 @@
         </div>
     </section>
 
-
+{% include "post/script_ajax.html" %}
 {% endblock %}
 
 

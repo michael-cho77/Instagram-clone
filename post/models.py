@@ -31,7 +31,7 @@ class Post(models.Model):
     bookmark_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                            blank=True,
                                            related_name='bookmark_user_set',
-                                           through='Bookmark')  # post.like_set 으로 접근 가능
+                                           through='Bookmark')  # post.bookmark_set 으로 접근 가능
 
     class Meta:
         ordering = ['-created_at']
