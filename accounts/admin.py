@@ -9,4 +9,5 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display_link = ['nickname', 'user']
     search_fields = ['nickname']
     
+
     
