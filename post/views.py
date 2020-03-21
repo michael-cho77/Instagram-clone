@@ -12,6 +12,16 @@ from django.http import HttpResponse
 from django.db.models import Count
 
 
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    comment_form = CommentForm()
+    
+    return render(request, 'post/post_detail.html', {
+        'comment_form': comment_form,
+        'post': post,
+    })
+
+
 def post_list(request, tag=None):
     tag_all = Tag.objects.annotate(num_post=Count('post')).order_by('-num_post')
     
@@ -184,6 +194,23 @@ def comment_new(request):
                 'comment': comment,   
             })
     return redirect("post:post_list")
+
+
+@login_required
+def comment_new_detail(request):
+    pk = request.POST.get('pk')
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+            return render(request, 'post/comment_new_detail_ajax.html', {
+                'comment': comment,
+            })
+
 
 
 
