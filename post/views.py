@@ -1,34 +1,76 @@
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Post, Like, Comment
+from .models import Post, Like, Comment, Tag
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import json
 from django.http import HttpResponse
 
+from django.db.models import Count
 
-def post_list(request):
 
-    post_list = Post.objects.all()
+def post_list(request, tag=None):
+    tag_all = Tag.objects.annotate(num_post=Count('post')).order_by('-num_post')
+    
+        #태그를 영소문상관없이 tag_name에 저장
+    if tag:
+        post_list = Post.objects.filter(tag_set__name__iexact=tag) \
+            .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile',
+                              'author__profile__follower_user', 'author__profile__follower_user__from_user') \
+            .select_related('author__profile') #select_related 는 1:1의 관계일때 적용됨 prefetch는 1:1은 물론 다대다관계에서도 적용 
+    else:
+        post_list = Post.objects.all() \
+            .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile',
+                              'author__profile__follower_user', 'author__profile__follower_user__from_user') \
+            .select_related('author__profile')
+
+    comment_form = CommentForm()
+    
+    paginator = Paginator(post_list, 3)
+    page_num = request.POST.get('page')
+    
+    try:
+        posts = paginator.page(page_num)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+        
+    if request.is_ajax():
+        return render(request, 'post/post_list_ajax.html', {
+            'posts': posts,
+            'comment_form': comment_form,
+        })
+    
+    if request.method == 'POST':
+        tag = request.POST.get('tag')
+        tag_clean = ''.join(e for e in gag if e.isalnum()) # isalnum - 문자 숫자 구분 
+        return redirect('post:post_search', tag_clean)
 
     if request.user.is_authenticated:
         username = request.user
         user = get_object_or_404(get_user_model(), username=username)
         user_profile = user.profile
-        
-        following_set = request.user.profile.get_following
-        following_post_list = Post.objects.filter(author__profile__in=following_set)
+        follow_set = request.user.profile.get_following
+        follow_post_list = Post.objects.filter(author__profile__in=follow_set)
         
         return render(request, 'post/post_list.html', {
             'user_profile': user_profile,
-            'posts': post_list,
-            'following_post_list': following_post_list,
+            'tag': tag,
+            'posts': posts,
+            'follow_post_list': follow_post_list,
+            'comment_form': comment_form,
+            'tag_all': tag_all,
         })
     else:
         return render(request, 'post/post_list.html', {
-            'posts': post_list,
+            'tag': tag,
+            'posts': posts,
+            'comment_form': comment_form,
+            'tag_all': tag_all,
         })
 
 
@@ -40,7 +82,7 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            #post.tag_save()
+            post.tag_save()
             messages.info(request, '새 글이 등록되었습니다')
             return redirect('post:post_list')
     else:
