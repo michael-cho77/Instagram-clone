@@ -32,5 +32,6 @@ tapContainer.addEventListener('click', changeMenu);
 /*
 결과적으로 active와 on은 사용자가 인식하기 위해서 만든 보이기위한용일뿐(css용)
 실질적으로는 taps에서 몇번째 배열을 list에 넣느냐에 따라 나오는 값이 내 포스트와 북마크로 바뀌는 것임
+.active는 profile.css에서 볼 수 있음 
 
 */
