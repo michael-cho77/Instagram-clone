@@ -9,6 +9,7 @@ class LoginForm(forms.ModelForm):
         model = User
         fields = ["username", "password"]
 
+# [a-zA-Z0-9] 영문자 또는 숫자만
 class SignupForm(UserCreationForm):
     username = forms.CharField(label='사용자명', widget=forms.TextInput(attrs={
         'pattern': '[a-zA-Z0-9]+',

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -8,6 +9,7 @@ from imagekit.processors import ResizeToFill
 def user_path(instance, filename):
     from random import choice
     import string
+    #대소문자 관계없이 문자를 불러옴 
     arr = [choice(string.ascii_letters) for _ in range(8)]
     pid = ''.join(arr)
     extension = filename.split('.')[-1] # 확장자명 추출 
@@ -17,7 +19,7 @@ def user_path(instance, filename):
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
     
     nickname = models.CharField('별명', max_length=20, unique=True)
     follow_set = models.ManyToManyField('self',
