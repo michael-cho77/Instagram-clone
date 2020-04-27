@@ -5,5 +5,4 @@
     {% if user == comment.author %}
     <input type="button" class="del-comment" data-name="comment_delete" value="삭제" name="{{ comment.id }}">
     {% endif %}
-    <div class="time">{{ comment.created_at|timesince }}</div>
 </div>

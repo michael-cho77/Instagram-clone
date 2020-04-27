@@ -68,6 +68,7 @@ def post_list(request, tag=None):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
         
+    
     if request.is_ajax():
         return render(request, 'post/post_list_ajax.html', {
             'posts': posts,

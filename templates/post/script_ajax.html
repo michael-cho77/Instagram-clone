@@ -155,10 +155,20 @@
             }
         }
     }
+/*
+window = 창
+document = 문서
+$(window).height() = 브라우저 창의 높이 (현재 보이는 부분만)
+$(document).height() = 문서 내용 전체의 높이 (스크롤해서 내려가야 하는 부분 포함)
+*/
+
     
     function scrollfunc(){
         var scrollHeight = pageYOffset + window.innerHeight;
         var documentHeight = document.body.scrollHeight;
+
+        console.log("scrollHeight : " + scrollHeight);
+        console.log("documentHeight : " + documentHeight);
         
         if (pageYOffset >= 10){
             header.classList.add('on');
@@ -212,7 +222,7 @@
     }
  
     function addMorePostAjax(data, textStatus, jqXHR) {
-    let post = document.querySelector('#post_list_ajax');
+    let post = document.querySelector('#post_list_ajax'); //post_list.html 에 있는 id
         
         post.insertAdjacentHTML("beforeend", data);
         

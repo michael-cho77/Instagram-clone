@@ -151,7 +151,7 @@
                             <input type="button" class="del-comment" data-name="comment_delete" value="삭제"
                                 name="{{ comment.id }}">
                             {% endif %}
-                            <div class="time">{{ comment.created_at|timesince }}</div>
+                            <!-- <div class="time">{{ comment.created_at|timesince }}</div> -->
                         </div>
                         {% endfor %}
 
@@ -209,15 +209,15 @@
                 </header>
 
                 <div class="scroll_inner">
-                    {% if following_post_list %}
-                    {% for post in following_post_list %}
+                    {% if follow_post_list %}
+                    {% for post in follow_post_list %}
                     <div class="thumb_user">
                         <div class="profile_thumb">
                             <img src="{{ post.photo.url }}" alt="프로필사진">
                         </div>
                         <div class="detail">
                             <div class="id">{{ post.content }}</div>
-                            <div class="time">{{ post.updated_at|timesince }}</div>
+                            <div class="time">{{ post.updated_at|timesince }}전 작성 </div>
                         </div>
                     </div>
                     {% endfor %}

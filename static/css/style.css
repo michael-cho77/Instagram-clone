@@ -255,6 +255,7 @@ body {
 
 .contents .comment_container .comment-detail {
   display: flex;
+  margin-bottom: 3px;
 }
 
 .contents .comment_container .comment .nick_name {

@@ -53,6 +53,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.nickname
 
+    # self는 Profile
     @property
     def get_follower(self):
         return [i.from_user for i in self.follower_user.all()]

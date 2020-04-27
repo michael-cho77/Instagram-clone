@@ -2,7 +2,7 @@ from django import forms
 from .models import Comment, Post
 
 class PostForm(forms.ModelForm):
-    photo = forms.ImageField(label='', required=False)
+    photo = forms.ImageField(label='', required=True)
     content = forms.CharField(label='', widget=forms.Textarea(attrs={
         'class': 'post-new-content',
         'rows': 5,
