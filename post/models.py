@@ -29,7 +29,7 @@ class Post(models.Model):
     like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                            blank=True,
                                            related_name='like_user_set',
-                                           through='Like')  # post.like_set 으로 접근 가능
+                                           through='Like')  # post.like_set 으로 접근 가능, through : like_iser_set은 like를통해 생긴다. 
     bookmark_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                            blank=True,
                                            related_name='bookmark_user_set',
@@ -49,6 +49,7 @@ class Post(models.Model):
             tag, tag_created = Tag.objects.get_or_create(name=t)
             self.tag_set.add(tag)  # ManyToManyField 에 인스턴스 추가
 
+#get set에서 get의 역할
     @property
     def like_count(self):
         return self.like_user_set.count()

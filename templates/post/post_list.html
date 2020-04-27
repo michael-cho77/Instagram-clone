@@ -62,14 +62,16 @@
                             </div>
                             <div class="country s_text">Seoul, South Korea</div>
                         </div>
+                        {% if post.author == user %}
                         <div>
                             <form action="{% url 'post:post_delete' post.pk %}" method="post">
                                 {% csrf_token %}
-                                <input type="submit" value="삭제">
+                                <input class="del-button" type="submit" value="삭제">
 
                             </form>
 
                         </div>
+                        {% endif %}
                     </div>
 
                     <div class="sprite_more_icon" data-name="more">
@@ -149,6 +151,7 @@
                             <input type="button" class="del-comment" data-name="comment_delete" value="삭제"
                                 name="{{ comment.id }}">
                             {% endif %}
+                            <div class="time">{{ comment.created_at|timesince }}</div>
                         </div>
                         {% endfor %}
 
@@ -157,15 +160,14 @@
 
                 <div class="timer">{{ post.created_at|timesince }}</div>
 
-
                 <div class="comment_field" id="add-comment-post{{post.id}}">
                     {% if user.is_authenticated %}
                     {{ comment_form }}
-                    <input type="text" placeholder="댓글달기">
+
                     <div class="upload_btn m_text" name="{{post.id}}" data-name="comment">게시</div>
                     {% else %}
                     {{ comment_form }}
-                    <input type="text" placeholder="댓글달기">
+
                     <div class="upload_btn m_text" name="{{post.id}}" data-name="comment"
                         onclick="alert('댓글을 작성하려면 로그인이 필요합니다')">게시</div>
                     {% endif%}

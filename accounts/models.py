@@ -26,6 +26,7 @@ class Profile(models.Model):
                                         blank=True,
                                         through='Follow',
                                         symmetrical=False,) # 비대칭관계 한쪽만 팔로우를해도 문제가 없게 구현 
+                                                            #through : follow_set는 Follew를 통해 생긴다. 
 
     picture = ProcessedImageField(upload_to=user_path,
                                  processors=[ResizeToFill(150, 150)],
