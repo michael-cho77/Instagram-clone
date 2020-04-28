@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Post, Like, Comment, Tag
-from .forms import PostForm, CommentForm
+from .models import Post, Like, Tag
+from .forms import PostForm
+from comment.models import Comment
+from comment.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -42,14 +44,17 @@ def my_post_list(request, username):
 
 
 def post_list(request, tag=None):
+    # 필드 추가 다른 필드의 값을 그대로 복사하거나, 다른 필드의 값들을 조합한 값을 넣을 수 있음.
+    # num_post필드를 만들고 그 내용은 num_post의 역순인 post의 Count한 값을 담음 
     tag_all = Tag.objects.annotate(num_post=Count('post')).order_by('-num_post')
     
         #태그를 영소문상관없이 tag_name에 저장
     if tag:
+        # prefetch는 1:1은 물론 다대다관계에서도 적용 
         post_list = Post.objects.filter(tag_set__name__iexact=tag) \
             .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile',
                               'author__profile__follower_user', 'author__profile__follower_user__from_user') \
-            .select_related('author__profile') #select_related 는 1:1의 관계일때 적용됨 prefetch는 1:1은 물론 다대다관계에서도 적용 
+            .select_related('author__profile') #select_related 는 1:1의 관계일때 적용됨 author이 하나면 profile도 하나임
     else:
         post_list = Post.objects.all() \
             .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile',
@@ -197,55 +202,5 @@ def post_bookmark(request):
 
     return HttpResponse(json.dumps(context), content_type="application/json")
 
-
-
-@login_required
-def comment_new(request):
-    pk = request.POST.get('pk')
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = post
-            comment.save()
-            return render(request, 'post/comment_new_ajax.html', {
-                'comment': comment,   
-            })
-    return redirect("post:post_list")
-
-
-@login_required
-def comment_new_detail(request):
-    pk = request.POST.get('pk')
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = post
-            comment.save()
-            return render(request, 'post/comment_new_detail_ajax.html', {
-                'comment': comment,
-            })
-
-
-
-@login_required
-def comment_delete(request):
-    pk = request.POST.get('pk')
-    comment = get_object_or_404(Comment, pk=pk)
-    if request.method == 'POST' and request.user == comment.author:
-        comment.delete()
-        message = '삭제완료'
-        status = 1
-    
-    else:
-        message = '잘못된 접근입니다'
-        status = 0
-        
-    return HttpResponse(json.dumps({'message': message, 'status': status, }), content_type="application/json")
 
 

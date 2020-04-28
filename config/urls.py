@@ -10,6 +10,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
     path('post/', include('post.urls', namespace='post')),
+    path('comment/', include('comment.urls', namespace='comment')),
     path('', lambda r: redirect('post:post_list'), name='root')
     
 ]

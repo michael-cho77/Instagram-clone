@@ -81,7 +81,7 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'post:comment_new' %}",
+                    url: "{% url 'comment:comment_new' %}",
                     data: {
                         'pk': pk,
                         'content': content,
@@ -91,6 +91,7 @@
                     success: function(data, textStatus, jqXHR){
                         console.log("성공!")
                         document.querySelector("#comment-list-ajax-post"+pk).insertAdjacentHTML("afterbegin", data);
+                        $('.comment-form').val('');
                         
                     },
                     error: function(request, status, error){
@@ -102,7 +103,7 @@
     
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'post:comment_delete' %}",
+                    url: "{% url 'comment:comment_delete' %}",
                     data: {
                         'pk': pk,
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
