@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from core import models as core_models
 import re
 
 
@@ -15,15 +16,13 @@ def photo_path(instance, filename):
     return '{}/{}/{}.{}'.format(strftime('post/%Y/%m/%d'), instance.author.username, pid, extension)
 
 
-class Post(models.Model):
+class Post(core_models.TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     photo = ProcessedImageField(upload_to=photo_path,
                                 processors=[ResizeToFill(600, 600)],
                                 format='JPEG',
                                 options={'quality': 90})
     content = models.CharField(max_length=140, help_text="최대 140자 입력 가능")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     tag_set = models.ManyToManyField('Tag', blank=True )
 
     like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
@@ -70,22 +69,18 @@ class Tag(models.Model):
         return self.name
 
 
-class Like(models.Model):
+class Like(core_models.TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = (
             ('user', 'post')
         )
         
-class Bookmark(models.Model):
+class Bookmark(core_models.TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = (
