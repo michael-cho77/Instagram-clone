@@ -24,7 +24,7 @@ class Post(models.Model):
     content = models.CharField(max_length=140, help_text="최대 140자 입력 가능")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tag_set = models.ManyToManyField('Tag', blank=True)
+    tag_set = models.ManyToManyField('Tag', blank=True )
 
     like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                            blank=True,
@@ -64,7 +64,7 @@ class Post(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=140, unique=True)
-
+    
     def __str__(self):
         return self.name
 

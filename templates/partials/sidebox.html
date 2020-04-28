@@ -1,0 +1,66 @@
+{% load static %}
+
+<div class="side_box" style="">
+    {% if user_profile %}
+    <div class="user_profile">
+        <div class="profile_thumb">
+            <img src="{{ user_profile.picture.url }}" alt="프로필사진">
+        </div>
+        <div class="detail">
+            <div class="id m_text">{{ user_profile.user }}</div>
+            <div class="ko_name">{{ user_profile.nickname }}</div>
+        </div>
+    </div>
+    {% else %}
+
+    <div class="user_profile">
+        <div class="profile_thumb">
+            <img src="{% static 'imgs/thumb.jpeg' %}" alt="프로필사진">
+        </div>
+        <div class="detail">
+        </div>
+    </div>
+
+    {% endif %}
+
+    <article class="story">
+        <header class="story_header">
+            <div>스토리</div>
+            <div class="more">모두 보기</div>
+        </header>
+
+        <div class="scroll_inner">
+            {% if follow_post_list %}
+            {% for post in follow_post_list %}
+            <div class="thumb_user">
+                <div class="profile_thumb">
+                    <img src="{{ post.photo.url }}" alt="프로필사진">
+                </div>
+                <div class="detail">
+                    <div class="id">{{ post.content }}</div>
+                    <div class="time">{{ post.updated_at|timesince }}전 작성 </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </article>
+
+    <article class="recommend">
+        <header class="reco_header">
+            <div>회원님을 위한 추천</div>
+            <div class="more">모두 보기</div>
+        </header>
+        {% for post in posts|slice:"2:3" %}
+        <div class="thumb_user">
+            <div class="profile_thumb">
+                <img src="{{ post.photo.url }}" alt="프로필사진">
+            </div>
+            <div class="detail">
+                <div class="id">{{ post.content }}</div>
+                <div class="time">{{ post.updated_at|timesince }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </article>
+</div>

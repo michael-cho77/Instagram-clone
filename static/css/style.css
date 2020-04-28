@@ -141,6 +141,12 @@ body {
   position: relative;
 }
 
+.content {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
 .contents_box {
 }
 

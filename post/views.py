@@ -82,7 +82,7 @@ def post_list(request, tag=None):
     
     if request.method == 'POST':
         tag = request.POST.get('tag')
-        tag_clean = ''.join(e for e in gag if e.isalnum()) # isalnum - 문자 숫자 구분 
+        tag_clean = ''.join(e for e in tag if e.isalnum()) # isalnum - 문자 숫자 구분 
         return redirect('post:post_search', tag_clean)
 
     if request.user.is_authenticated:
@@ -139,8 +139,8 @@ def post_edit(request, pk):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
-            #post.tag_set.clear()
-            #post.tag_save()
+            post.tag_set.clear()
+            post.tag_save()
             messages.success(request, '수정완료')
             return redirect('post:post_list')
     else:
