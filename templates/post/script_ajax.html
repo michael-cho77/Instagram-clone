@@ -185,12 +185,13 @@ $(document).height() = 문서 내용 전체의 높이 (스크롤해서 내려가
             }
         }
         
-        if(scrollHeight >= documentHeight){
+        if(scrollHeight >= documentHeight -10){
             var page = document.querySelector('#page').value;
             
             console.log(page);
             
             var end_page = {{ posts.paginator.num_pages }}
+            console.log("1번 end_page:" + end_page )
             if(page > end_page){
                 return;
             }
@@ -201,8 +202,7 @@ $(document).height() = 문서 내용 전체의 높이 (스크롤해서 내려가
     
     function callMorePostAjax(page) {
         var end_page = {{ posts.paginator.num_pages }};
-        
-        
+        console.log("end_page:" + end_page )
         
         if(page > end_page){
             return;
@@ -217,15 +217,15 @@ $(document).height() = 문서 내용 전체의 높이 (스크롤해서 내려가
             dataType: 'html',
             success: addMorePostAjax,
             error: function(request, status, error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                alert("code:"+request.status+"\n"+"message:"+request.reponseText+"\n"+"error:"+error);
             }
         });
     }
  
-    function addMorePostAjax(data, textStatus, jqXHR) {
-    let post = document.querySelector('#post_list_ajax'); //post_list.html 에 있는 id
+    function addMorePostAjax(data, textStatus, jqXHR){
+        let post = document.querySelector('#post_list_ajax'); //post_list.html 에 있는 id
         
-        post.insertAdjacentHTML("beforeend", data);
+         post.insertAdjacentHTML("beforeend", data);
         
         
     }

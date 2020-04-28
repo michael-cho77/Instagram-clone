@@ -1,3 +1,10 @@
+a {
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
+}
+
 .m_text {
   font-size: 14px;
   font-weight: bold;
@@ -207,6 +214,8 @@ body {
 .contents .toggle_box > li input {
   border: none;
   font-size: inherit;
+  background: white;
+  cursor: pointer;
 }
 
 .contents .img_section {

@@ -37,7 +37,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-
+        
+    
     # content에서 tags를 추출하여, Tag 객체 가져오기, 신규 태그는 Tag instance 생성, 본인의 tag_set에 등록,
     def tag_save(self):
         tags = re.findall(r'#(\w+)\b', self.content) #re.정규표현식(매칭되는 모든것을 찾음)

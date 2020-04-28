@@ -32,6 +32,7 @@
         <div class="scroll_inner">
             {% if follow_post_list %}
             {% for post in follow_post_list %}
+            <a href="{% url 'post:post_detail' post.pk %}">
             <div class="thumb_user">
                 <div class="profile_thumb">
                     <img src="{{ post.photo.url }}" alt="프로필사진">
@@ -43,6 +44,7 @@
             </div>
             {% endfor %}
             {% endif %}
+            </a>
         </div>
     </article>
 
@@ -52,6 +54,7 @@
             <div class="more">모두 보기</div>
         </header>
         {% for post in posts|slice:"2:3" %}
+        <a href="{% url 'post:post_detail' post.pk %}">
         <div class="thumb_user">
             <div class="profile_thumb">
                 <img src="{{ post.photo.url }}" alt="프로필사진">
@@ -61,6 +64,7 @@
                 <div class="time">{{ post.updated_at|timesince }}</div>
             </div>
         </div>
+        </a>
         {% endfor %}
     </article>
 </div>
