@@ -37,7 +37,8 @@
                         likeCount.innerHTML = '좋아요' + response.like_count + '개';
                     },
                     error: function (request, status, error) {
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인이 필요합니다.")
+                        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     },
                 });
                 
@@ -59,7 +60,8 @@
                         bookmarkCount.innerHTML = '북마크' + response.bookmark_count + '개';
                     },
                     error: function (request, status, error) {
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인이 필요합니다.")
+                        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     },
                 });
             }else if (elem.matches('[data-name="comment"]')){
@@ -95,7 +97,8 @@
                         
                     },
                     error: function(request, status, error){
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인이 필요합니다.")
+                        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     },
                 });
             }else if(elem.matches('[data-name="comment_delete"]')){
@@ -115,7 +118,8 @@
                         }
                     },
                     error: function(request, status, error){
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인이 필요합니다.")
+                        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     } 
                 });
             }else if(elem.matches('[data-name="follow"]')){
@@ -139,7 +143,8 @@
                         }
                     },
                     error: function(request, status, error){
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인이 필요합니다.")
+                        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     }
                 })
             }

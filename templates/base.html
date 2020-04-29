@@ -38,9 +38,11 @@
 </head>
 
 <body>
+  
   {% include "partials/nav.html" %}
-  {% block content %}
+  {% include "partials/messages.html" %}
 
+  {% block content %}
   {% endblock %}
 
   <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요) -->
