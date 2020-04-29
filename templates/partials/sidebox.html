@@ -26,7 +26,7 @@
     <article class="story">
         <header class="story_header">
             <div>스토리</div>
-            <div class="more">모두 보기</div>
+            <div class="more"></div>
         </header>
 
         <div class="scroll_inner">
@@ -51,9 +51,9 @@
     <article class="recommend">
         <header class="reco_header">
             <div>회원님을 위한 추천</div>
-            <div class="more">모두 보기</div>
+            <div class="more"></div>
         </header>
-        {% for post in posts|slice:"2:3" %}
+        {% for post in posts|slice:"0:10" %}
         <a href="{% url 'post:post_detail' post.pk %}">
         <div class="thumb_user">
             <div class="profile_thumb">

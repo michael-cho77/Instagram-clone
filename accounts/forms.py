@@ -11,7 +11,12 @@ class LoginForm(forms.ModelForm):
 
 # [a-zA-Z0-9] 영문자 또는 숫자만
 class SignupForm(UserCreationForm):
-    username = forms.CharField(label='사용자명', widget=forms.TextInput(attrs={
+    '''
+    firstname = forms.CharField(widget= forms.TextInput(attrs={
+                                'placeholder': 'First Name'
+                                }))
+    '''
+    username = forms.CharField(label='아이디', widget=forms.TextInput(attrs={
         'pattern': '[a-zA-Z0-9]+',
         'title': '특수문자, 공백 입력불가',
     }))

@@ -9,6 +9,6 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
     
     path('follow/', follow, name='follow'),
-    
+    path('myprofile/<int:pk>/', myprofile, name='myprofile'),
   
 ]

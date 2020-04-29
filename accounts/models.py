@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.shortcuts import reverse
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -76,6 +77,8 @@ class Profile(models.Model):
     
     def is_following(self, user):
         return user in self.get_following
+    
+
     
     
 

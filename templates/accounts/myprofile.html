@@ -49,7 +49,7 @@
       {% for post in post_list %}
 
       <div class="pic">
-        <a href="#"><img src="{{ post.photo.url }}" alt="" /></a>
+        <a href="{% url 'post:post_detail' post.pk %}"><img src="{{ post.photo.url }}" alt="" /></a>
       </div>
 
       {% endfor %}
@@ -61,7 +61,7 @@
           {% for bookmark_user in post.bookmark_user_set.all %}
           <div class="pic">
               {% if user == bookmark_user.profile.user %}
-                  <a href="#"><img src="{{ post.photo.url }}" alt=""></a>
+                  <a href="{% url 'post:post_detail' post.pk %}"><img src="{{ post.photo.url }}" alt=""></a>
               {% endif%}
           </div>
           {% endfor %}

@@ -2,16 +2,35 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.contrib.auth import logout as django_logout
 from . import forms, models, mixins
+from post import models as PostModel
 from django.contrib import messages
-
+from django.contrib.auth import get_user_model
 import json
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
 
-class signup(mixins.LoggedOutOnlyView):
-    pass
+def myprofile(request, pk):
+    user = get_object_or_404(get_user_model(), pk=pk)
+    user_profile = user.profile
+    
+    target_user = get_user_model().objects.filter(id=user.id).select_related('profile') \
+        .prefetch_related('profile__follower_user__from_user', 'profile__follow_user__to_user')
+        
+    post_list = user.post_set.all()
+    
+    all_post_list = PostModel.Post.objects.all()
+    
+    return render(request, 'accounts/myprofile.html', {
+        'user_profile': user_profile,
+        'target_user': target_user,
+        'post_list': post_list,
+        'all_post_list': all_post_list,
+        'pk': pk,
+        'user': user,
+    })
+
 
 def signup(request):
     if request.user.is_authenticated:
