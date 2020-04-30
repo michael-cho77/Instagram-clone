@@ -21,6 +21,7 @@
         <a href="{% url 'accounts:myprofile' user.pk %}">
         <div class="user">
             <div class="thumb_img">
+            {% if user.picture %}
                 <img src="{{ user.picture.url }}" alt="">
             {% else %}
                 <div class="default_profile" style="width: 3rem; height: 3rem;">{{ user.nickname|first }}</div>
