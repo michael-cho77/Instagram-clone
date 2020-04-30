@@ -22,7 +22,7 @@ class SignupForm(UserCreationForm):
     }))
     
     nickname = forms.CharField(label='닉네임')
-    picture = forms.ImageField(label='프로필 사진', required=True)
+    picture = forms.ImageField(label='프로필 사진', required=False)
     
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('email',)

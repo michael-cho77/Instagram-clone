@@ -51,11 +51,7 @@
                     <div class="user_container">
                         <div class="profile_img">
                             <a href="{% url 'accounts:myprofile' post.author.pk %}">
-                            {% if post.author.profile.picture %}
-                            <img src="{{ post.author.profile.picture.url }}" alt="프로필이미지">
-                            {% else %}
-                            <img src="{% static 'imgs/thumb.jpeg'%}" alt="프로필이미지">
-                            {% endif %}
+                            {% include 'mixins/user_avatar.html' %}
                             
                         </div>
                         <div class="user_name">
@@ -108,7 +104,8 @@
                 <div class="img_section">
                     <div class="trans_inner" >
 
-                        <div><img src="{{ post.photo.url }}" alt="visual01"></div>
+                        <div>
+                            <img src="{{ post.photo.url }}" alt="visual01"></div>
                     </div>
                 </div>
 

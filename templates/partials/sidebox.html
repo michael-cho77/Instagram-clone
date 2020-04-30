@@ -1,23 +1,31 @@
 {% load static %}
+      
+
+</style>
 
 <div class="side_box" style="">
     {% if user_profile %}
     <div class="user_profile">
         <div class="profile_thumb">
+            {% if user_profile.picture %}
             <img src="{{ user_profile.picture.url }}" alt="프로필사진">
+            {% else %}
+            <div class="default_profile" style="width: 3rem; height:3rem;">{{ user_profile.nickname|first }}</div>
+            {% endif %}
         </div>
         <div class="detail">
             <div class="id m_text">{{ user_profile.user }}</div>
-            <div class="ko_name">{{ user_profile.nickname }}</div>
+            <div class="ko_name">{{ user_profile.nickname }} </div>
         </div>
     </div>
     {% else %}
 
     <div class="user_profile">
-        <div class="profile_thumb">
-            <img src="{% static 'imgs/thumb.jpeg' %}" alt="프로필사진">
-        </div>
+      
+            <div class="default_profile" style="width: 3rem; height:3rem;"> N </div>
         <div class="detail">
+            <div class="id m_text">비회원</div>
+            <div class="ko_name">익명의접속자</div>
         </div>
     </div>
 
