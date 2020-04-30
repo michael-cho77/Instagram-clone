@@ -21,7 +21,7 @@ class Post(core_models.TimeStampedModel):
     photo = ProcessedImageField(upload_to=photo_path,
                                 processors=[ResizeToFill(600, 600)],
                                 format='JPEG',
-                                options={'quality': 90})
+                                options={'quality': 90},)
     content = models.CharField(max_length=140, help_text="최대 140자 입력 가능")
     tag_set = models.ManyToManyField('Tag', blank=True )
 

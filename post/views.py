@@ -1,16 +1,18 @@
-from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Post, Like, Tag
+from accounts import models as a_models
 from .forms import PostForm
 from comment.models import Comment
 from comment.forms import CommentForm
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 import json
 from django.http import HttpResponse
-
 from django.db.models import Count
 
 
@@ -184,4 +186,15 @@ def post_bookmark(request):
     return HttpResponse(json.dumps(context), content_type="application/json")
 
 
+
+def recommand(request):
+    users = a_models.Profile.objects.all()
+    post_list = Post.objects.all()
+
+    print(post_list[1])
+
+    return render(request, 'post/recommand.html', {
+        'users': users,
+        'post_list': post_list,
+    })
 
